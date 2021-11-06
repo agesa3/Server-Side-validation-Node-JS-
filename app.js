@@ -18,9 +18,23 @@ app.get('/register',(req,res)=>{
     res.render('register')
 })
 
-app.post('/register',urlEncodedParser,(req,res)=>{
-    res.json(req.body)
+app.post('/register',urlEncodedParser,[
+    check('username','Name is required').exists().isLength({min:3}),
+    check('email','Email is required').isEmail(),
+    check('password','Password is required').isLength({min:6})
+],(req,res)=>{
+    const errors=validationResult(req);
+    if(!errors.isEmpty()){
+        // return res.status(422).json({errors:errors.array()})
+        const alert=errors.array();
+        res.render('register',{
+            alert
+        })
+   
+    }
+    res.send('Success')
 })
+
 
 app.listen(PORT,(req,res)=>{
     console.log(`listening on port ${PORT}`)
