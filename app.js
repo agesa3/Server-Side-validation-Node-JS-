@@ -3,7 +3,7 @@ const app=express()
 const PORT=5000;
 
 //set the templating engine
-app,set('view engine','ejs')
+app.set('view engine','ejs')
 
 //navigation
 app.get('',(req,res)=>{
